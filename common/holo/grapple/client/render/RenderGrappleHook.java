@@ -56,7 +56,7 @@ public class RenderGrappleHook extends Render
         {
             float f9 = entity.thrower.getSwingProgress(par9);
             float f10 = MathHelper.sin(MathHelper.sqrt_float(f9) * (float) Math.PI);
-            Vec3 vec3 = entity.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
+            Vec3 vec3 = entity.worldObj.getWorldVec3Pool().getVecFromPool(-0.38D, -0.15D, 0.6D);
             vec3.rotateAroundX((-(entity.thrower.prevRotationPitch + ((entity.thrower.rotationPitch - entity.thrower.prevRotationPitch) * par9)) * (float) Math.PI) / 180.0F);
             vec3.rotateAroundY((-(entity.thrower.prevRotationYaw + ((entity.thrower.rotationYaw - entity.thrower.prevRotationYaw) * par9)) * (float) Math.PI) / 180.0F);
             vec3.rotateAroundY(f10 * 0.5F);
