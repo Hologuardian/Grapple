@@ -1,7 +1,7 @@
 package holo.grapple.client.render;
 
 import holo.grapple.entity.mob.EntityHook;
-import holo.grapple.util.Utils;
+import holo.grapple.utils.lib.Utils;
 
 import org.bouncycastle.util.Strings;
 import org.lwjgl.opengl.GL11;
@@ -21,7 +21,7 @@ import cpw.mods.fml.relauncher.SideOnly;
 @SideOnly(Side.CLIENT)
 public class RenderGrappleHook extends Render
 {
-    private static final ResourceLocation texture = new ResourceLocation(Strings.toLowerCase(Utils.MOD_ID) + ":textures/mob/Hook.png");
+    private static final ResourceLocation texture = new ResourceLocation(Strings.toLowerCase(Utils.MOD_ID) + "textures/mob/Hook.png");
 
     /**
      * Actually renders the fishing line and hook
@@ -53,28 +53,28 @@ public class RenderGrappleHook extends Render
         GL11.glDisable(GL12.GL_RESCALE_NORMAL);
         GL11.glPopMatrix();
 
-        if (entity.thrower != null)
+        if (entity.getThrower() != null)
         {
-            float f9 = entity.thrower.getSwingProgress(par9);
+            float f9 = entity.getThrower().getSwingProgress(par9);
             float f10 = MathHelper.sin(MathHelper.sqrt_float(f9) * (float) Math.PI);
             Vec3 vec3 = entity.worldObj.getWorldVec3Pool().getVecFromPool(-0.5D, 0.03D, 0.8D);
-            vec3.rotateAroundX((-(entity.thrower.prevRotationPitch + ((entity.thrower.rotationPitch - entity.thrower.prevRotationPitch) * par9)) * (float) Math.PI) / 180.0F);
-            vec3.rotateAroundY((-(entity.thrower.prevRotationYaw + ((entity.thrower.rotationYaw - entity.thrower.prevRotationYaw) * par9)) * (float) Math.PI) / 180.0F);
+            vec3.rotateAroundX((-(entity.getThrower().prevRotationPitch + ((entity.getThrower().rotationPitch - entity.getThrower().prevRotationPitch) * par9)) * (float) Math.PI) / 180.0F);
+            vec3.rotateAroundY((-(entity.getThrower().prevRotationYaw + ((entity.getThrower().rotationYaw - entity.getThrower().prevRotationYaw) * par9)) * (float) Math.PI) / 180.0F);
             vec3.rotateAroundY(f10 * 0.5F);
             vec3.rotateAroundX(-f10 * 0.7F);
-            double d3 = entity.thrower.prevPosX + ((entity.thrower.posX - entity.thrower.prevPosX) * par9) + vec3.xCoord;
-            double d4 = entity.thrower.prevPosY + ((entity.thrower.posY - entity.thrower.prevPosY) * par9) + vec3.yCoord;
-            double d5 = entity.thrower.prevPosZ + ((entity.thrower.posZ - entity.thrower.prevPosZ) * par9) + vec3.zCoord;
-            double d6 = entity.thrower == Minecraft.getMinecraft().thePlayer ? 0.0D : (double) entity.thrower.getEyeHeight();
+            double d3 = entity.getThrower().prevPosX + ((entity.getThrower().posX - entity.getThrower().prevPosX) * par9) + vec3.xCoord;
+            double d4 = entity.getThrower().prevPosY + ((entity.getThrower().posY - entity.getThrower().prevPosY) * par9) + vec3.yCoord;
+            double d5 = entity.getThrower().prevPosZ + ((entity.getThrower().posZ - entity.getThrower().prevPosZ) * par9) + vec3.zCoord;
+            double d6 = entity.getThrower() == Minecraft.getMinecraft().thePlayer ? 0.0D : (double) entity.getThrower().getEyeHeight();
 
-            if ((renderManager.options.thirdPersonView > 0) || (entity.thrower != Minecraft.getMinecraft().thePlayer))
+            if ((renderManager.options.thirdPersonView > 0) || (entity.getThrower() != Minecraft.getMinecraft().thePlayer))
             {
-                float f11 = ((entity.thrower.prevRenderYawOffset + ((entity.thrower.renderYawOffset - entity.thrower.prevRenderYawOffset) * par9)) * (float) Math.PI) / 180.0F;
+                float f11 = ((entity.getThrower().prevRenderYawOffset + ((entity.getThrower().renderYawOffset - entity.getThrower().prevRenderYawOffset) * par9)) * (float) Math.PI) / 180.0F;
                 double d7 = MathHelper.sin(f11);
                 double d8 = MathHelper.cos(f11);
-                d3 = (entity.thrower.prevPosX + ((entity.thrower.posX - entity.thrower.prevPosX) * par9)) - (d8 * 0.35D) - (d7 * 0.85D);
-                d4 = (entity.thrower.prevPosY + d6 + ((entity.thrower.posY - entity.thrower.prevPosY) * par9)) - 0.45D;
-                d5 = ((entity.thrower.prevPosZ + ((entity.thrower.posZ - entity.thrower.prevPosZ) * par9)) - (d7 * 0.35D)) + (d8 * 0.85D);
+                d3 = (entity.getThrower().prevPosX + ((entity.getThrower().posX - entity.getThrower().prevPosX) * par9)) - (d8 * 0.35D) - (d7 * 0.85D);
+                d4 = (entity.getThrower().prevPosY + d6 + ((entity.getThrower().posY - entity.getThrower().prevPosY) * par9)) - 0.45D;
+                d5 = ((entity.getThrower().prevPosZ + ((entity.getThrower().posZ - entity.getThrower().prevPosZ) * par9)) - (d7 * 0.35D)) + (d8 * 0.85D);
             }
 
             double d9 = entity.prevPosX + ((entity.posX - entity.prevPosX) * par9);

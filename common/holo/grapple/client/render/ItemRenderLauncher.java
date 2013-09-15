@@ -2,7 +2,8 @@ package holo.grapple.client.render;
 
 import holo.grapple.client.model.ModelGrappleLauncher;
 import holo.grapple.client.model.ModelGrappleLauncherNoHook;
-import holo.grapple.util.Utils;
+import holo.grapple.utils.helpers.NBTHelper;
+import holo.grapple.utils.lib.Utils;
 
 import org.lwjgl.opengl.GL11;
 
@@ -14,7 +15,7 @@ import net.minecraftforge.client.IItemRenderer;
 
 public class ItemRenderLauncher implements IItemRenderer
 {
-    protected ResourceLocation launcherTexture = new ResourceLocation(Utils.MOD_ID, ":textures/model/GrappleLauncher.png");
+    protected ResourceLocation launcherTexture = new ResourceLocation(Utils.MOD_ID, "textures/model/GrappleLauncher.png");
 
     protected ModelGrappleLauncher launcherModelHook;
 
@@ -58,7 +59,7 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
 
-                launcherModelHook.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
                 GL11.glPopMatrix();
             }
@@ -73,7 +74,7 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
 
-                launcherModelHook.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
                 GL11.glPopMatrix();
             }
@@ -87,7 +88,7 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
 
-                launcherModelHook.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
                 GL11.glPopMatrix();
                 break;
@@ -101,7 +102,7 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
 
-                launcherModelHook.render((Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
 
                 GL11.glPopMatrix();
                 break;
@@ -110,4 +111,14 @@ public class ItemRenderLauncher implements IItemRenderer
         }
     }
 
+    public void render(final ItemStack item, final Entity entity, final float f, final float f1, final float f2, final float f3, final float f4, final float f5)
+    {
+        if (NBTHelper.getBoolean(item, Utils.LAUNCHER_ACTIVE))
+        {
+            launcherModelNoHook.render(entity, f, f1, f2, f3, f4, f5);
+        } else
+        {
+            launcherModelHook.render(entity, f, f1, f2, f3, f4, f5);
+        }
+    }
 }

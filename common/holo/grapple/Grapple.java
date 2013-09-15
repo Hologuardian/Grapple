@@ -1,7 +1,7 @@
 package holo.grapple;
 
 import holo.grapple.proxy.CommonProxy;
-import holo.grapple.util.Utils;
+import holo.grapple.utils.lib.Utils;
 
 import cpw.mods.fml.common.Mod;
 import cpw.mods.fml.common.Mod.EventHandler;

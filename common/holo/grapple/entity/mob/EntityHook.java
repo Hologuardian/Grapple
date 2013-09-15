@@ -11,44 +11,36 @@ import net.minecraft.world.World;
 
 public class EntityHook extends EntityThrowable
 {
-    public EntityLivingBase thrower = null;
     public Entity entityHit = null;
     public boolean hasCollided;
     private boolean hasEntityCollided;
 
-    public EntityHook(final World par1World)
+    public EntityHook(final World world, final EntityLivingBase player)
     {
-        super(par1World);
-    }
-
-    public EntityHook(final World par1World, final EntityPlayer player)
-    {
-        super(par1World, player);
-        thrower = player;
+        super(world, player);
     }
 
     @Override
     public void onUpdate()
     {
         super.onUpdate();
-        EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 64.0D);
 
-        if ((player == null) || (player.getDistanceToEntity(this) > 64) || player.isSneaking())
+        if ((getThrower() == null) || (getThrower().getDistanceToEntity(this) > 64) || getThrower().isSneaking())
         {
             setDead();
         }
-        thrower = player;
+
         if (hasCollided)
         {
-            moveEntities(this, player, 1.0F);
+            moveEntities(this, getThrower(), 1.0F);
         } else if (hasEntityCollided)
         {
             entityHit = getClosestEntity(worldObj);
 
-            moveEntities(player, entityHit, 1.0F);
+            moveEntities(getThrower(), entityHit, 1.0F);
             moveEntities(entityHit, this, 1.0F);
 
-            if (entityHit.getDistanceToEntity(player) < 2)
+            if (entityHit.getDistanceToEntity(getThrower()) < 2)
             {
                 setDead();
                 return;
@@ -96,6 +88,7 @@ public class EntityHook extends EntityThrowable
     {
         Entity retEnt = null;
         float entDist = Float.MAX_VALUE;
+        @SuppressWarnings("unchecked")
         List<Entity> entityList = world.loadedEntityList;
         for (Entity entity : entityList)
         {
