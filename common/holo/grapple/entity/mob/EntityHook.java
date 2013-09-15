@@ -40,20 +40,7 @@ public class EntityHook extends EntityThrowable
 
         if ((player == null) || (player.getDistanceToEntity(this) > 64) || player.isSneaking())
         {
-            setDead();
-            for (ItemStack item : player.inventory.mainInventory)
-            {
-                if (item != null)
-                {
-                    if (item.getItem() instanceof ItemGrappleHook)
-                    {
-                        if (NBTHelper.getBoolean(item, Utils.LAUNCHER_ACTIVE))
-                        {
-                            NBTHelper.setBoolean(item, Utils.LAUNCHER_ACTIVE, false);
-                        }
-                    }
-                }
-            }
+            setDead(player);
         }
         thrower = player;
         if (hasCollided)
@@ -68,7 +55,7 @@ public class EntityHook extends EntityThrowable
 
             if (entityHit.getDistanceToEntity(player) < 2)
             {
-                setDead();
+                setDead(player);
                 return;
             }
         }
@@ -132,7 +119,22 @@ public class EntityHook extends EntityThrowable
     {
         if ((target == null) || (moving == null))
         {
-            setDead();
+            if (target != null)
+            {
+                if (target instanceof EntityPlayer)
+                {
+                    setDead((EntityPlayer) target);
+                }
+            } else if (moving != null)
+            {
+                if (moving instanceof EntityPlayer)
+                {
+                    setDead((EntityPlayer) moving);
+                }
+            } else
+            {
+                setDead();
+            }
             return;
         }
         double xDif = target.posX - moving.posX;
@@ -158,5 +160,26 @@ public class EntityHook extends EntityThrowable
 
         moving.fallDistance = 0;
         moving.addVelocity(xV, yV, zV);
+    }
+
+    public void setDead(final EntityPlayer player)
+    {
+        super.setDead();
+        if (player != null)
+        {
+            for (ItemStack item : player.inventory.mainInventory)
+            {
+                if (item != null)
+                {
+                    if (item.getItem() instanceof ItemGrappleHook)
+                    {
+                        if (NBTHelper.getBoolean(item, Utils.LAUNCHER_ACTIVE))
+                        {
+                            NBTHelper.setBoolean(item, Utils.LAUNCHER_ACTIVE, false);
+                        }
+                    }
+                }
+            }
+        }
     }
 }
