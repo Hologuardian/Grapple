@@ -40,7 +40,13 @@ public class ItemRenderLauncher implements IItemRenderer
     @Override
     public boolean shouldUseRenderHelper(final ItemRenderType type, final ItemStack item, final ItemRendererHelper helper)
     {
-        return false;
+        if (type.equals(ItemRenderType.INVENTORY) || type.equals(ItemRenderType.ENTITY))
+        {
+            return true;
+        } else
+        {
+            return false;
+        }
     }
 
     @Override
@@ -57,9 +63,9 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glTranslatef(0.0F, -0.15F, -0.6F);
 
-                GL11.glScalef(1.0F, 1.0F, 1.0F);
+                GL11.glScalef(1, 1, 1);
 
-                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
             }
@@ -74,7 +80,7 @@ public class ItemRenderLauncher implements IItemRenderer
 
                 GL11.glScalef(1.0F, 1.0F, 1.0F);
 
-                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
             }
@@ -82,13 +88,13 @@ public class ItemRenderLauncher implements IItemRenderer
                 GL11.glPushMatrix();
                 Minecraft.getMinecraft().renderEngine.bindTexture(launcherTexture);
 
-                GL11.glRotatef(150F, 90F, 25F, -90F);
+                GL11.glRotatef(-180, -45, 45, -180);
 
-                GL11.glTranslatef(0.0F, -0.15F, -0.6F);
+                GL11.glTranslatef(0F, -0.1F, 0F);
 
-                GL11.glScalef(1.0F, 1.0F, 1.0F);
+                GL11.glScalef(0.8F, 0.8F, 0.8F);
 
-                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) data[1], 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
                 break;
@@ -96,13 +102,13 @@ public class ItemRenderLauncher implements IItemRenderer
                 GL11.glPushMatrix();
                 Minecraft.getMinecraft().renderEngine.bindTexture(launcherTexture);
 
-                GL11.glRotatef(150F, 90F, 25F, -90F);
+                GL11.glScalef(1.3F, 1.3F, 1.3F);
 
-                GL11.glTranslatef(0.0F, -0.15F, -0.6F);
+                GL11.glRotatef(-180, -90F, 5F, -90F);
 
-                GL11.glScalef(1.0F, 1.0F, 1.0F);
+                GL11.glTranslatef(0, 0, 0);
 
-                render(item, (Entity) data[1], 0.0F, 0.0F, 0.0F, 0.0F, 0.0F, 0.0625F);
+                render(item, (Entity) null, 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
                 break;

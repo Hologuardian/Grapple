@@ -15,6 +15,11 @@ public class EntityHook extends EntityThrowable
     public boolean hasCollided;
     private boolean hasEntityCollided;
 
+    public EntityHook(final World world)
+    {
+        super(world);
+    }
+
     public EntityHook(final World world, final EntityLivingBase player)
     {
         super(world, player);
