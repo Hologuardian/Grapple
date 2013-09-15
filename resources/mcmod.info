@@ -1,0 +1,19 @@
+[
+{
+  "modid": "Grapple",
+  "name": "grapple",
+  "description": "A Grapple Hook!",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "updateUrl": "",
+  "authorList": [
+    "Hologuard"
+  ],
+  "credits": "By Hologuardian",
+  "screenshots": [
+  ],
+  "parent":"",
+  "dependencies": [
+  ]
+}
+]

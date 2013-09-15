@@ -1,0 +1,9 @@
+###########
+# Items
+###########
+item.grappleHook.name=Grapple Hook Launcher
+
+###########
+# Entities
+###########
+entity.grapple.GrappleHook.name=Grapple Hook

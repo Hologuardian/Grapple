@@ -1,0 +1,41 @@
+// Hologuard, Grapple
+buildscript {
+    repositories {
+        mavenCentral()
+        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
+    }
+    dependencies { classpath 'com.github.abrarsyed.gmcp:GMCP:0.7.4-SNAPSHOT' }
+}
+
+apply plugin: "gmcp"
+
+group = 'holo.grapple'
+version = "1.0"
+archivesBaseName = 'Grapple'
+
+sourceSets {
+    main {
+        java { srcDir 'common' }
+        resources { srcDir 'resources' }
+    }
+}
+
+minecraft {
+    minecraftVersion = '1.6.2'
+}
+
+processResources {
+    // Iterate through files to expand version on things not PNGs, or OBJs
+    eachFile { file ->
+        if (!(file.getPath().endsWith('png') || file.getPath().endsWith('tnc'))){
+            expand version: version, mcversion: minecraft.minecraftVersion
+        }
+    }
+}
+
+jar {
+    manifest {
+        attributes 'MCVersion' : project.minecraft.minecraftVersion
+        attributes 'Version' : project.version
+    }
+}
