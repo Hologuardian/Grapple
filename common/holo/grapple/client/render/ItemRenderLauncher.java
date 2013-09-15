@@ -68,6 +68,7 @@ public class ItemRenderLauncher implements IItemRenderer
                 render(item, (Entity) data[1], 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
+                break;
             }
             case EQUIPPED_FIRST_PERSON:
             {
@@ -83,6 +84,7 @@ public class ItemRenderLauncher implements IItemRenderer
                 render(item, (Entity) data[1], 0, 0, 0, 0, 0, 0.0625F);
 
                 GL11.glPopMatrix();
+                break;
             }
             case ENTITY:
                 GL11.glPushMatrix();

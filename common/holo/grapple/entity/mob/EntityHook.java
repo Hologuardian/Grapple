@@ -1,16 +1,22 @@
 package holo.grapple.entity.mob;
 
+import holo.grapple.item.ItemGrappleHook;
+import holo.grapple.utils.helpers.NBTHelper;
+import holo.grapple.utils.lib.Utils;
+
 import java.util.List;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.EntityLivingBase;
 import net.minecraft.entity.player.EntityPlayer;
 import net.minecraft.entity.projectile.EntityThrowable;
+import net.minecraft.item.ItemStack;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.world.World;
 
 public class EntityHook extends EntityThrowable
 {
+    public EntityLivingBase thrower = null;
     public Entity entityHit = null;
     public boolean hasCollided;
     private boolean hasEntityCollided;
@@ -20,32 +26,47 @@ public class EntityHook extends EntityThrowable
         super(world);
     }
 
-    public EntityHook(final World world, final EntityLivingBase player)
+    public EntityHook(final World world, final EntityPlayer player)
     {
         super(world, player);
+        thrower = player;
     }
 
     @Override
     public void onUpdate()
     {
         super.onUpdate();
+        EntityPlayer player = worldObj.getClosestPlayerToEntity(this, 64.0D);
 
-        if ((getThrower() == null) || (getThrower().getDistanceToEntity(this) > 64) || getThrower().isSneaking())
+        if ((player == null) || (player.getDistanceToEntity(this) > 64) || player.isSneaking())
         {
             setDead();
+            for (ItemStack item : player.inventory.mainInventory)
+            {
+                if (item != null)
+                {
+                    if (item.getItem() instanceof ItemGrappleHook)
+                    {
+                        if (NBTHelper.getBoolean(item, Utils.LAUNCHER_ACTIVE))
+                        {
+                            NBTHelper.setBoolean(item, Utils.LAUNCHER_ACTIVE, false);
+                        }
+                    }
+                }
+            }
         }
-
+        thrower = player;
         if (hasCollided)
         {
-            moveEntities(this, getThrower(), 1.0F);
+            moveEntities(this, player, 1.0F);
         } else if (hasEntityCollided)
         {
             entityHit = getClosestEntity(worldObj);
 
-            moveEntities(getThrower(), entityHit, 1.0F);
+            moveEntities(player, entityHit, 1.0F);
             moveEntities(entityHit, this, 1.0F);
 
-            if (entityHit.getDistanceToEntity(getThrower()) < 2)
+            if (entityHit.getDistanceToEntity(player) < 2)
             {
                 setDead();
                 return;

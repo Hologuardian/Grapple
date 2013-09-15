@@ -6,8 +6,8 @@ import holo.grapple.utils.lib.Utils;
 import java.util.List;
 
 import net.minecraft.creativetab.CreativeTabs;
-import net.minecraft.entity.Entity;
 import net.minecraft.entity.player.EntityPlayer;
+import net.minecraft.entity.projectile.EntityThrowable;
 import net.minecraft.item.Item;
 import net.minecraft.item.ItemStack;
 import net.minecraft.world.World;
@@ -32,18 +32,31 @@ public class ItemGrappleHook extends Item
 
         if (!world.isRemote)
         {
-            List<Entity> entitys = world.getEntitiesWithinAABB(EntityHook.class, player.boundingBox.expand(128.0F, 128.0F, 128.0F));
-            if (!entitys.isEmpty())
-            {
-                for (Entity hook : entitys)
-                {
-                    hook.setDead();
-                }
-            }
+            destroyHooks(world, player);
+
             EntityHook entity = new EntityHook(world, player);
             world.spawnEntityInWorld(entity);
             stack.getTagCompound().setBoolean(Utils.LAUNCHER_ACTIVE, true);
         }
         return stack;
+    }
+
+    private void destroyHooks(final World world, final EntityPlayer player)
+    {
+        List<EntityThrowable> entitys = world.getEntitiesWithinAABB(EntityHook.class, player.boundingBox.expand(128.0F, 128.0F, 128.0F));
+        if (!entitys.isEmpty())
+        {
+            for (EntityThrowable hook : entitys)
+            {
+                if (hook.getThrower() instanceof EntityPlayer)
+                {
+                    EntityPlayer thrower = (EntityPlayer) hook.getThrower();
+                    if (thrower.username.equalsIgnoreCase(player.username))
+                    {
+                        hook.setDead();
+                    }
+                }
+            }
+        }
     }
 }
