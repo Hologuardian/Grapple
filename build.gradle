@@ -1,10 +1,7 @@
 // Hologuard, Grapple
 buildscript {
-    repositories {
-        mavenCentral()
-        maven { url 'https://oss.sonatype.org/content/repositories/snapshots' }
-    }
-    dependencies { classpath 'com.github.abrarsyed.gmcp:GMCP:0.7.4-SNAPSHOT' }
+    repositories { mavenCentral() }
+    dependencies { classpath 'com.github.abrarsyed.gmcp:GMCP:latest.integration' }
 }
 
 apply plugin: "gmcp"
@@ -25,11 +22,15 @@ minecraft {
 }
 
 processResources {
-    // Iterate through files to expand version on things not PNGs, or OBJs
-    eachFile { file ->
-        if (!(file.getPath().endsWith('png') || file.getPath().endsWith('tnc'))){
-            expand version: version, mcversion: minecraft.minecraftVersion
-        }
+    from(sourceSets.main.resources.srcDirs) {
+        include '**/*.lang'
+        include '**/*.info'
+        expand version: version, mcversion: minecraft.minecraftVersion
+    }
+
+    from(sourceSets.main.resources.srcDirs) {
+        exclude '**/*.lang'
+        exclude '**/*.info'
     }
 }
 
